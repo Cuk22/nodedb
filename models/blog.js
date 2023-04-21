@@ -21,4 +21,4 @@ const blogSchema = new Schema({
 
 const Blog = mongoose.model('Blog', blogSchema) //1st argument name of model, 2nd schema we want to base model on
 
-module.exports = Blog;
+module.exports = Blog; 

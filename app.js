@@ -25,7 +25,7 @@ app.use(morgan('dev')); //dev dictates how it will be formatted what we log in c
 app.get('/add-blog', (req, res) => {
     //new instance of blog model
     const blog = new Blog ({
-        title: 'new blog',
+        title: 'new blog 2',
         snippet: 'about my new blog',
         body: 'more about my new blog'
     });
@@ -37,6 +37,16 @@ app.get('/add-blog', (req, res) => {
         .catch((err) => {
             console.log(err)
         })
+});
+
+app.get('/all-blogs', (req, res) => {
+    Blog.find()
+    .then((result) => {
+        res.send(result);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 });
 
 //it will fire fn on every request because middleware is on top
