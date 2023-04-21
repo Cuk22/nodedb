@@ -49,6 +49,16 @@ app.get('/all-blogs', (req, res) => {
     })
 });
 
+app.get('/single-blog', (req, res) => {
+    Blog.findById('64426aa95f2d714c1253bf40')
+    .then((result) => {
+        res.send(result)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+});
+
 //it will fire fn on every request because middleware is on top
 /* app.use((req, res, next) => {
     console.log('new request made:');
@@ -59,14 +69,15 @@ app.get('/all-blogs', (req, res) => {
 }); */
 
 app.get('/', (req, res) => { //2nd argument = fn takes two objects
-    const blogs = [
+    res.redirect('/blogs');
+    /*     const blogs = [
         { title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur' },
         { title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit amet consectetur' },
         { title: 'How to defeat bowser', snippet: 'Lorem ipsum dolor sit amet consectetur' },
-    ];
+    ];//dummy */
     //    res.send('<p>home page</p>'); //express auto do res.setHeader('Content-Type', 'text/html'); auto set status code
     //    res.sendFile('./views/index.html', { root: __dirname}); //2nd argument option object root of project
-    res.render('index', { naslov: 'Home', blogs }); //knows as render view (take view, render it and send it to browser(app.set)), 2nd parametar data (object)
+// redirected to /blogs    res.render('index', { naslov: 'Home', blogs }); //knows as render view (take view, render it and send it to browser(app.set)), 2nd parametar data (object)
 
 });
 
@@ -75,6 +86,16 @@ app.get('/about', (req, res) => { //2nd argument = fn takes two objects
     //    res.send('<p>about page</p>'); //express auto do res.setHeader('Content-Type', 'text/html'); auto set status code
     //    res.sendFile('./views/about.html', { root: __dirname}); 
     res.render('about', { naslov: 'About' });
+});
+
+app.get('/blogs', (req, res) => {
+    Blog.find().sort({ createdAt: -1 })
+    .then((result) => {
+        res.render('index', { naslov: 'All Blogs', blogs: result})
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 });
 
 app.get('/blogs/create', (req, res) => {
