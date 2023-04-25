@@ -86,13 +86,13 @@ app.get('/about', (req, res) => { //2nd argument = fn takes two objects
 
     //    res.send('<p>about page</p>'); //express auto do res.setHeader('Content-Type', 'text/html'); auto set status code
     //    res.sendFile('./views/about.html', { root: __dirname}); 
-    res.render('about', { naslov: 'About' });
+    res.render('about', { title: 'About' });
 });
 
 app.get('/blogs', (req, res) => {
     Blog.find().sort({ createdAt: -1 })
         .then((result) => {
-            res.render('index', { naslov: 'All Blogs', blogs: result })
+            res.render('index', { title: 'All Blogs', blogs: result })
         })
         .catch((err) => {
             console.log(err);
@@ -112,12 +112,23 @@ app.post('/blogs', (req, res) => {
     })
 });
 
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id; //id name in path must be the same here in req.params
+    Blog.findById(id) // retrieve document with this id from databaase(Blog model)
+    .then(result => {
+        res.render('details', { blog: result, title: 'Blog Details'}); //render a details page(details view template); blog(object) represents data that we are sending
+    })
+    .catch(err => {
+        console.log(err);
+    });
+});
+
 app.get('/blogs/create', (req, res) => {
-    res.render('create', { naslov: 'Create a new Blog' });
+    res.render('create', { title: 'Create a new Blog' });
 });
 
 //.use = use this function for every single request
 /* app.use((req, res) => { //.use will fire fn for every request only if request reaches line 26
     //  res.status(404).sendFile('./views/404.html', { root: __dirname});
-    res.status(404).render('404', { naslov: '404' });
+    res.status(404).render('404', { title: '404' });
 });  */
