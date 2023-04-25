@@ -1,5 +1,5 @@
 <html lang="en">
-<%- include('./partials/head.ejs') %>
+    <%- include("./partials/head.ejs") %>
 
     <body>
 
@@ -9,12 +9,16 @@
                 <h2>All Blogs</h2>
                 <% if (blogs.length> 0) { %>
                     <% blogs.forEach(blog=> { %>
-                        <h3 class="title">
-                            <%= blog.title %>
-                        </h3>
-                        <p class="snippet">
-                            <%= blog.snippet %>
-                        </p>
+
+                        <a class="single" href="/blogs/<%= blog._id %>"> 
+                            <h3 class="title">
+                                <%= blog.title %>
+                            </h3>
+                            <p class="snippet">
+                                <%= blog.snippet %>
+                            </p>
+                        </a>
+
 
                         <% }) %>
                             <% } else { %>
